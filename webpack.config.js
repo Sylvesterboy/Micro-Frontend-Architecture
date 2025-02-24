@@ -6,10 +6,10 @@ module.exports = {
   entry: "./src/index.js",
   mode: "development",
   devServer: {
-    port: 3000, 
+    port: 3001, // ✅ Ensure the Chat App is running on a unique port
   },
   output: {
-    publicPath: "http://localhost:3000/",
+    publicPath: "http://localhost:3001/",
   },
   module: {
     rules: [
@@ -22,10 +22,10 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "host",
-      remotes: {
-        chat: "chat@http://localhost:3001/remoteEntry.js", 
-        email: "email@http://localhost:3002/remoteEntry.js",
+      name: "chat",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./Chat": "./src/Chat", // ✅ Ensure the correct path
       },
       shared: { react: { singleton: true }, "react-dom": { singleton: true } },
     }),
